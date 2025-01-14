@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface Iinteractable
+public interface IDamageable
 {
-    void Interact();
+    void SetDamage(int damage, IDamageable attacker);
 }

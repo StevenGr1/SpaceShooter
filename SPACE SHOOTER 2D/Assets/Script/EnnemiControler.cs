@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnnemiControler : MonoBehaviour,Iinteractable
+public class EnnemiControler : MonoBehaviour,IDamageable
 {
     [SerializeField]
     Rigidbody2D rb;
@@ -15,7 +15,6 @@ public class EnnemiControler : MonoBehaviour,Iinteractable
     public float moveSpeed = 2f;
     [SerializeField]
     float shootInterval = 2f;
-
     float DespawnTime = 10f;
 
     void Start()
@@ -29,6 +28,8 @@ public class EnnemiControler : MonoBehaviour,Iinteractable
         transform.Translate(0f, moveSpeed * Time.deltaTime, 0f);
     }
 
+    //////////////////////////////// TIR AUTO //////////////////////////////////////////////////////////////////////////
+
     IEnumerator ShootRoutine()
     {
         Instantiate(missileGo, missilePosGo.transform.position, Quaternion.Euler(0, 0, -180));
@@ -36,9 +37,21 @@ public class EnnemiControler : MonoBehaviour,Iinteractable
         while (true)
         {
             yield return new WaitForSeconds(shootInterval);
-            Instantiate(missileGo, missilePosGo.transform.position, Quaternion.Euler(0, 0, -180));
+            GameObject missileInst = Instantiate(missileGo, missilePosGo.transform.position, Quaternion.Euler(0, 0, -180));
+            TirMissile tirMissile = missileInst.GetComponent<TirMissile>();
+            tirMissile.Launcher = gameObject;
         }
     }
+
+    //////////////////////////////// DEGAT DE TIR //////////////////////////////////////////////////////////////////////////
+    
+    public void SetDamage(int damage, IDamageable attacker)
+    {
+        Destroy(gameObject);
+        PlayerControler.instance.SetDamage(1, null);
+    }
+
+    //////////////////////////////// DESPAWN ENNEMI //////////////////////////////////////////////////////////////////////////
 
     IEnumerator Despawn()
     {
@@ -47,14 +60,5 @@ public class EnnemiControler : MonoBehaviour,Iinteractable
             yield return new WaitForSeconds(DespawnTime);
             Destroy(gameObject);
         }
-    }
-
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (!collision.CompareTag("Player")) return;
-
-        PlayerControler.instance.SetDamage(1);
-
-        Destroy(gameObject);
     }
 }

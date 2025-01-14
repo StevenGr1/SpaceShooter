@@ -93,7 +93,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1637595126760608837}
-  - component: {fileID: 5696764291733475538}
+  - component: {fileID: 2117285337037494120}
   - component: {fileID: 2228519538957069586}
   - component: {fileID: 5836727024617331806}
   m_Layer: 0
@@ -119,7 +119,7 @@ Transform:
   - {fileID: 1642989653441327881}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5696764291733475538
+--- !u!114 &2117285337037494120
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -128,10 +128,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5822094783565800900}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 862fa4703a740e24da186cedf9f756ab, type: 3}
+  m_Script: {fileID: 11500000, guid: d9b5b87ea3daa5045b12bd49e8f27553, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 6
+  damage: 1
+  Launcher: {fileID: 562733585725824292, guid: 859476a939d61744d84af513b96f84a1, type: 3}
 --- !u!50 &2228519538957069586
 Rigidbody2D:
   serializedVersion: 4

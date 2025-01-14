@@ -9,6 +9,10 @@ public class IHM : MonoBehaviour
 
     [SerializeField]
     TextMeshProUGUI lifeText;
+    [SerializeField]
+    TextMeshProUGUI pointText;
+
+    //////////////////////////////// CREATION D'INSTANCE //////////////////////////////////////////////////////////////////////////
 
     void Awake()
     {
@@ -20,8 +24,15 @@ public class IHM : MonoBehaviour
         instance = this;
     }
 
+    //////////////////////////////// UPDATE DES TEXTES //////////////////////////////////////////////////////////////////////////
+
     public void UpdatePlayerLife()
     {
         lifeText.text = PlayerControler.instance.currentLife.ToString();
     }
+    public void UpdatePlayerPoint()
+    {
+        pointText.text = PlayerControler.instance.currentPoint.ToString();
+    }
+
 }

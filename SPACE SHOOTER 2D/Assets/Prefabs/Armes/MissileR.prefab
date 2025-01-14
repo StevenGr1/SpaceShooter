@@ -48,6 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 6
+  damage: 1
+  Launcher: {fileID: 4284417485722236264, guid: 9a3987ee2f024bf4aa009037f14368a9, type: 3}
 --- !u!50 &4301512718313624200
 Rigidbody2D:
   serializedVersion: 4
