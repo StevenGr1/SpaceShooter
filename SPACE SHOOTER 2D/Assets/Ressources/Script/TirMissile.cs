@@ -4,18 +4,18 @@ using UnityEngine;
 public class TirMissile : MonoBehaviour, IDamageable
 {
     public float moveSpeed = 6f;
-    public int damage = 1;
     public GameObject Launcher;
     float DespawnTime = 3f;
 
     public AudioSource audioSource;
+    public GameObject player;
 
     //////////////////////////////// DESPAWN TIR //////////////////////////////////////////////////////////////////////////
 
     void Start()
     {
         StartCoroutine(Despawn());
-        audioSource = GetComponentInParent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     IEnumerator Despawn()
@@ -38,41 +38,85 @@ public class TirMissile : MonoBehaviour, IDamageable
 
     //////////////////////////////// COLLISIONS + SONS //////////////////////////////////////////////////////////////////////////
 
+    public void Depop()
+    {
+        audioSource.Play();
+        SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        Collider2D monCollider = GetComponent<Collider2D>();
+        if (spriteRenderer != null && monCollider != null)
+        {
+            spriteRenderer.enabled = false;
+            monCollider.enabled = false;
+        }
+        StartCoroutine(Boom());
+    }
+
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject == Launcher) return;
 
         if (collision.CompareTag("Player"))
         {
-            PlaySoundFromPlaylist(1);
-            gameObject.SetActive(false);
-            PlayerControler.instance.SetDamage(1, this);
-            if (audioSource.isPlaying == false)
+            if (PlaylistB.instance != null)
             {
-                Destroy(gameObject);
+                AudioClip clip = PlaylistB.instance.GetAudioClip(1);
+                if (clip != null)
+                {
+                    if (audioSource != null)
+                    {
+                        audioSource.clip = clip;
+                        IHM.instance.SetDamage(1, this);
+                        Depop();
+                    }
+                }
             }
         }
 
         else if (collision.CompareTag("Projectile"))
         {
-            PlaySoundFromPlaylist(1);
-            Destroy(gameObject);
+            TirMissile projectileCollision = collision.gameObject.GetComponent<TirMissile>();
+            if (projectileCollision != null && projectileCollision.Launcher.CompareTag("Ennemi"))
+            {
+                if (PlaylistB.instance != null)
+                {
+                    AudioClip clip = PlaylistB.instance.GetAudioClip(1);
+                    if (clip != null)
+                    {
+                        if (audioSource != null)
+                        {
+                            audioSource.clip = clip;
+                            Depop();
+                            Destroy(collision.gameObject);
+                        }
+                    }
+                }
+            }
         }
 
         else if (collision.CompareTag("Ennemi"))
         {
-            if (Launcher == null || !Launcher.CompareTag("Ennemi"))
+            if (!Launcher.CompareTag("Ennemi"))
             {
-                PlaySoundFromPlaylist(0);
-                PlayerControler.instance.SetPoint(1);
-                Destroy(collision.gameObject);
-                Destroy(gameObject);
+                if (PlaylistB.instance != null)
+                {
+                    AudioClip clip = PlaylistB.instance.GetAudioClip(0);
+                    if (clip != null)
+                    {
+                        if (audioSource != null)
+                        {
+                            audioSource.clip = clip;
+                            IHM.instance.SetPoint(1);
+                            Destroy(collision.gameObject);
+                            Depop();
+                        }
+                    }
+                }
             }
         }
 
         else if (collision.CompareTag("Obstacle"))
         {
-            if (Launcher != null && Launcher.CompareTag("Player"))
+            if (Launcher.CompareTag("Player"))
             {
                 Destroy(gameObject);
             }
@@ -107,5 +151,12 @@ public class TirMissile : MonoBehaviour, IDamageable
         {
             Debug.LogWarning("GameObject PlaylistBruitages introuvable !");
         }
+    }
+
+    //////////////////////////////// DESTRUCTION PROJECTILE /////////////////////////////////////////////////////////////////////////////////////////
+    IEnumerator Boom()
+    {
+        yield return new WaitForSeconds(3f);
+        Destroy(gameObject);
     }
 }

@@ -49,8 +49,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 6
-  damage: 1
   Launcher: {fileID: 0}
+  audioSource: {fileID: 5433950046451832497, guid: 4a0668137ab24354f97419da1976f657, type: 3}
+  player: {fileID: 5851579755445690793, guid: 9a3987ee2f024bf4aa009037f14368a9, type: 3}
+  ennemi: {fileID: 562733585725824292, guid: 859476a939d61744d84af513b96f84a1, type: 3}
 --- !u!50 &4301512718313624200
 Rigidbody2D:
   serializedVersion: 4
@@ -316,7 +318,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 85faa6453ac353141832dbfe95b6878a, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 0
   Mute: 0

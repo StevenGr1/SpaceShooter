@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1642989653441327881}
   - component: {fileID: 70986898333241382}
   m_Layer: 0
-  m_Name: Skin + Son tir
+  m_Name: Skin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -133,8 +133,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 6
-  damage: 1
   Launcher: {fileID: 0}
+  audioSource: {fileID: 5433950046451832497, guid: 4a0668137ab24354f97419da1976f657, type: 3}
+  player: {fileID: 5851579755445690793, guid: 9a3987ee2f024bf4aa009037f14368a9, type: 3}
+  ennemi: {fileID: 562733585725824292, guid: 859476a939d61744d84af513b96f84a1, type: 3}
 --- !u!50 &2228519538957069586
 Rigidbody2D:
   serializedVersion: 4

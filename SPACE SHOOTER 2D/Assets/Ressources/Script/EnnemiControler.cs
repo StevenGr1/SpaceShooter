@@ -1,9 +1,8 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.WSA;
 
-public class EnnemiControler : MonoBehaviour,IDamageable
+public class EnnemiControler : MonoBehaviour, IDamageable
 {
     [SerializeField] Rigidbody2D rb;
     [SerializeField] GameObject missileGo;
@@ -13,48 +12,48 @@ public class EnnemiControler : MonoBehaviour,IDamageable
     [SerializeField] float shootInterval = 2f;
     [SerializeField] float DespawnTime = 10f;
 
-    private AudioSource audioSource;
-    [SerializeField] float detectionZone = 3f;
-    bool isPlayerInRange
-    {
-        get
-        {
-            return Vector3.Distance(transform.position, PlayerControler.instance.transform.position)<=detectionZone;
-        }
-    }
+    public AudioSource audioSource;
+    public AudioSource audioSource2;
+    public GameObject player;
 
+    //////////////////////////////// START COROUTINE //////////////////////////////////////////////////////////////////////////
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+        player = GameObject.FindWithTag("Player");
+
         StartCoroutine(ShootRoutine());
         StartCoroutine(Despawn());
-
-        audioSource = GetComponent<AudioSource>();
-    }
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            audioSource.Play();
-        }
     }
 
-
-    //////////////////////////////// DEPLACEMENT + ENDOMMAGEABLE //////////////////////////////////////////////////////////////////////////
-
-    void Update()
-    {
-        transform.Translate(0f, moveSpeed * Time.deltaTime, 0f);
-        if (isPlayerInRange)
-        {
-            audioSource.Play();
-        }
-    }
     public void SetDamage(int damage, IDamageable attacker)
     {
         throw new System.NotImplementedException();
     }
 
-    //////////////////////////////// TIR AUTO //////////////////////////////////////////////////////////////////////////
+    //////////////////////////////// MOUVEMENT + BRUIT MOTEUR(ZONE) //////////////////////////////////////////////////////////////////////////
+
+    void Update()
+    {
+        transform.Translate(0f, moveSpeed * Time.deltaTime, 0f);
+
+        if (player != null && audioSource2 != null)
+        {
+            float distance = Vector3.Distance(transform.position, player.transform.position);
+            if (distance <= 5f)
+            {
+                audioSource2.Play();
+            }
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, 5f);
+    }
+
+    //////////////////////////////// TIR ET DESPAWN AUTO //////////////////////////////////////////////////////////////////////////
 
     IEnumerator ShootRoutine()
     {
@@ -67,8 +66,6 @@ public class EnnemiControler : MonoBehaviour,IDamageable
         }
     }
 
-    //////////////////////////////// DESPAWN ENNEMI //////////////////////////////////////////////////////////////////////////
-
     IEnumerator Despawn()
     {
         while (true)
@@ -76,5 +73,43 @@ public class EnnemiControler : MonoBehaviour,IDamageable
             yield return new WaitForSeconds(DespawnTime);
             Destroy(gameObject);
         }
+    }
+
+    //////////////////////////////// COLLISION //////////////////////////////////////////////////////////////////////////
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            StartCoroutine(Destruction());
+        }
+    }
+
+    IEnumerator Destruction()
+    {
+        if (PlaylistB.instance != null)
+        {
+            AudioClip clip = PlaylistB.instance.GetAudioClip(0);
+            if (clip != null)
+            {
+                if (audioSource != null)
+                {
+                    audioSource.clip = clip;
+                    audioSource.Play();
+                }
+            }
+        }
+        IHM.instance.SetDamage(1, this);
+        IHM.instance.SetPoint(1);
+        SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.enabled = false;
+        }
+        if (audioSource != null && audioSource.clip != null)
+        {
+            yield return new WaitForSeconds(audioSource.clip.length);
+        }
+        Destroy(gameObject);
     }
 }

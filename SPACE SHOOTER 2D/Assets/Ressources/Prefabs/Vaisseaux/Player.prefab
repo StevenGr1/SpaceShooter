@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7339417614316362430}
   - component: {fileID: 7398055568747218932}
   m_Layer: 0
-  m_Name: Skin / Moteur
+  m_Name: Vaisseau
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -225,7 +225,7 @@ GameObject:
   - component: {fileID: 4641080178648219302}
   - component: {fileID: 7005612336949291805}
   - component: {fileID: 745630723357793279}
-  - component: {fileID: 9071986920722298846}
+  - component: {fileID: 7864566374140940341}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -262,9 +262,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b398e3f13e08e034583f7d9ea3535dec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxLife: 5
-  currentLife: 5
-  currentPoint: 0
   rb: {fileID: 7005612336949291805}
   missileGo: {fileID: 2077603826729377503, guid: 1248e6a15ed41394996b65ed1d0b3354, type: 3}
   missilePosGo: {fileID: 3600099994287244536}
@@ -353,7 +350,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!82 &9071986920722298846
+--- !u!82 &7864566374140940341
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -363,9 +360,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: e020ec37e2226d14faaf7e24f843e92f, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0

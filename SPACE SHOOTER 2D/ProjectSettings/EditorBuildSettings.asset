@@ -6,9 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Autres/Scenes/MainMenu.unity
+    path: "Assets/Ressources/Sc\xE8nes_Interface/Menus/Main menu/MainMenu.unity"
     guid: f09b1f5f8f9d16644b9ee27889bbff6f
   - enabled: 1
-    path: Assets/Autres/Scenes/Jeu.unity
+    path: "Assets/Ressources/Sc\xE8nes_Interface/Menus/Game menu/Jeu.unity"
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: "Assets/Ressources/Sc\xE8nes_Interface/Menus/Cr\xE9dits/Cr\xE9dits.unity"
+    guid: 30b9c0c3c5bb8d74fb5152532d7c0355
   m_configObjects: {}
